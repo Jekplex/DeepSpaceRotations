@@ -13,6 +13,9 @@ public class PauseMenu : MonoBehaviour
 
     public CrosshairEnforcement crosshairEnforcement;
 
+    public GameObject backgroundMusic;
+    private AudioSource backgroundMusicSource;
+
     private bool gameIsPaused = false;
 
     private void Start()
@@ -20,7 +23,7 @@ public class PauseMenu : MonoBehaviour
         // grab playerScript
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
 
-
+        backgroundMusicSource = backgroundMusic.GetComponent<AudioSource>();
     }
 
 
@@ -41,6 +44,10 @@ public class PauseMenu : MonoBehaviour
 
             
             crosshairEnforcement.setGame();
+
+            // Resume Music
+            backgroundMusicSource.UnPause();
+
         }
         else
         {
@@ -54,6 +61,12 @@ public class PauseMenu : MonoBehaviour
             playerScript.controls.Player.Shoot.Disable();
 
             crosshairEnforcement.SetOS();
+
+            // Pause Music
+            backgroundMusicSource.Pause();
+
+
+
         }
 
 

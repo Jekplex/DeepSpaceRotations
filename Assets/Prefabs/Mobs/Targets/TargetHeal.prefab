@@ -219,4 +219,4 @@ MonoBehaviour:
   minSpeed: 0.5
   maxSpeed: 2.5
   moveSpeed: 0
-  moveSpeedShift: 2.134661
+  moveSpeedShift: 1.0145621
