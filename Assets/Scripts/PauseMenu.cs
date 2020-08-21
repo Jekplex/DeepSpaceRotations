@@ -24,6 +24,10 @@ public class PauseMenu : MonoBehaviour
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
 
         backgroundMusicSource = backgroundMusic.GetComponent<AudioSource>();
+
+        // THis object activate. Child not. ON start.
+        gameObject.SetActive(true);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
 

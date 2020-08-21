@@ -157,7 +157,7 @@ public class PlayerScript : MonoBehaviour
 
     }
 
-    void PauseGame()
+    public void PauseGame()
     {
         PauseMenu.PauseGame();
 
