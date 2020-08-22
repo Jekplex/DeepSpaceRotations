@@ -222,6 +222,11 @@ public class GameMaster : MonoBehaviour
 
     }
 
+    public void closeApp()
+    {
+        Application.Quit();
+    }
+
     public void ActivateDoublePoints()
     {
 
