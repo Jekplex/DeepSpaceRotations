@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282254fe44e45864da721086c8ef7c41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerColourDropdown: {fileID: 270977987}
 --- !u!1 &20355275
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,7 +1758,18 @@ MonoBehaviour:
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 15430377}
+        m_MethodName: SetPlayerColour
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &270977988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4734,6 +4746,7 @@ MonoBehaviour:
   - {fileID: 1288617021}
   - {fileID: 697729224}
   - {fileID: 418091065}
+  WallpaperDropdown: {fileID: 1091250357}
 --- !u!1 &880876223
 GameObject:
   m_ObjectHideFlags: 0
@@ -6483,8 +6496,6 @@ MonoBehaviour:
     - m_Text: Jelly
       m_Image: {fileID: 0}
     - m_Text: Tiles
-      m_Image: {fileID: 0}
-    - m_Text: Dark Space Cloud
       m_Image: {fileID: 0}
     - m_Text: Clouds
       m_Image: {fileID: 0}
