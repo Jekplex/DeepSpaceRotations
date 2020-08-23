@@ -222,9 +222,15 @@ public class GameMaster : MonoBehaviour
 
     }
 
+
+    IEnumerator WaitForSoundToFinishThenCloseApp()
+    {
+        yield return new WaitForSeconds(0.6f); // 0.539 is the length of the sound
+        Application.Quit();
+    }
     public void closeApp()
     {
-        Application.Quit();
+        StartCoroutine(WaitForSoundToFinishThenCloseApp());
     }
 
     public void ActivateDoublePoints()

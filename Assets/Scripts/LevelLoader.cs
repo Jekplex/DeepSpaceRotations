@@ -26,10 +26,10 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex));
+        StartCoroutine(LoadNextLevel(SceneManager.GetActiveScene().buildIndex));
     }
 
-    IEnumerator LoadLevel(int levelIndex)
+    IEnumerator LoadNextLevel(int levelIndex)
     {
 
         // Play Animation
@@ -43,5 +43,28 @@ public class LevelLoader : MonoBehaviour
 
         // load next scene.
         SceneManager.LoadScene(levelIndex + 1);
+    }
+
+    IEnumerator LoadLevel(int levelIndex)
+    {
+
+        // Play Animation
+        transition.SetTrigger("Start");
+
+        // Play Sound
+        //ownAudioSource.Play();
+
+        // wait
+        yield return new WaitForSeconds(transitionTime);
+
+        // load next scene.
+        SceneManager.LoadScene(levelIndex);
+    }
+
+
+
+    public void LoadFromStart()
+    {
+        StartCoroutine(LoadLevel(0));
     }
 }
