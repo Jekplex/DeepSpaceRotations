@@ -44,6 +44,9 @@ public class PlayerScript : MonoBehaviour
     // Grab Pause Menu Script.
     public PauseMenu PauseMenu;
 
+    public GameObject AntiCheatObj;
+    private AntiCheat AC;
+
     public void Hurt()
     {
         assetHealth.Hurt(1f);
@@ -63,30 +66,61 @@ public class PlayerScript : MonoBehaviour
 
     public void AddToScore(int integer)
     {
-        if (GM.doublePointsEnabled)
+        if (AC.GetPlayerCheats())
         {
-            integer *= 2;
-        }
-
-        int counter;
-        bool doneOnce = false;
-
-        do
-        {
-            score += 1;
-            integer -= 1;
-
-            // check
-            counter = score % 50;
-
-            if (counter == 0 && !doneOnce)
+            if (GM.doublePointsEnabled)
             {
-                //
-                GES.StartAnEvent(score);
-                doneOnce = true;
+                integer *= 2;
             }
 
-        } while (integer > 0);
+            int counter;
+            bool doneOnce = false;
+
+            do
+            {
+                score -= 1;
+                integer -= 1;
+
+                // check
+                counter = score % 50;
+
+                if (counter == 0 && !doneOnce)
+                {
+                    //
+                    GES.StartAnEvent(score);
+                    doneOnce = true;
+                }
+
+            } while (integer > 0);
+        }
+        else
+        {
+            if (GM.doublePointsEnabled)
+            {
+                integer *= 2;
+            }
+
+            int counter;
+            bool doneOnce = false;
+
+            do
+            {
+                score += 1;
+                integer -= 1;
+
+                // check
+                counter = score % 50;
+
+                if (counter == 0 && !doneOnce)
+                {
+                    //
+                    GES.StartAnEvent(score);
+                    doneOnce = true;
+                }
+
+            } while (integer > 0);
+        }
+        
 
         updateScoreLabel();
     }
@@ -123,7 +157,7 @@ public class PlayerScript : MonoBehaviour
 
         GES = GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameEventScript>();
 
-        
+        AC = AntiCheatObj.GetComponent<AntiCheat>();
 
     }
 
@@ -150,11 +184,15 @@ public class PlayerScript : MonoBehaviour
         controls.Player.Pause.Disable();
     }
 
+
+    
+
+
     void Shoot()
     {
+
         PlayerGun.Fire();
         //Debug.Log("Player Shot");
-
     }
 
     public void PauseGame()
@@ -170,8 +208,13 @@ public class PlayerScript : MonoBehaviour
     //    controls.Player.Shoot.Enable();
     //}
 
-    
-    
+
+
+    private float beforeTime;
+    private float afterTime;
+    private float timeDiff;
+    private float timeDiffConstant;
+    private bool timeDiffConsistent = false;
 
 
     // Update is called once per frame
@@ -183,6 +226,7 @@ public class PlayerScript : MonoBehaviour
         {
             checkForMouseHold();
         }
+
         
         //if (playerIsDead)
         //{
