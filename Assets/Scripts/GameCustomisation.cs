@@ -66,12 +66,16 @@ public class GameCustomisation : MonoBehaviour
         {
             playerSR.color = new Color(0.50f, 0.0f, 1.0f); // Violet
         }
+        
+        if (val <= 7 && val >= 0)
+        {
+            PlayerPrefs.SetInt("PlayerColour", val);
+        }
         else
         {
             return;
         }
-
-        PlayerPrefs.SetInt("PlayerColour", val);
+        
     }
 
 

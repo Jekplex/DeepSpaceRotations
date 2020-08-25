@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject thePauseMenu;
+    public GameObject customiseMenu;
+    public GameObject areYouSureMenu;
+
     public Texture2D gameCrosshair;
 
     private PlayerScript playerScript;
@@ -43,6 +46,8 @@ public class PauseMenu : MonoBehaviour
         
             // close pause menu
             thePauseMenu.SetActive(false);
+            customiseMenu.SetActive(false);
+            areYouSureMenu.SetActive(false);
 
             playerScript.controls.Player.Shoot.Enable();
 

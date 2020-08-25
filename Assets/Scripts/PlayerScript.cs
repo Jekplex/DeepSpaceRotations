@@ -190,7 +190,7 @@ public class PlayerScript : MonoBehaviour
 
     void Shoot()
     {
-
+        AC.incrementClick();
         PlayerGun.Fire();
         //Debug.Log("Player Shot");
     }
@@ -269,7 +269,7 @@ public class PlayerScript : MonoBehaviour
         {
             // Set timer so only every 400ms
 
-            Shoot();
+            PlayerGun.Fire();
             checkForMouseHoldTimer_ = checkForMouseHoldTimer;
 
         }
