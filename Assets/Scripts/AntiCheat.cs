@@ -1,124 +1,308 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.iOS;
 
 public class AntiCheat : MonoBehaviour
 {
 
-    // We've got to get the time stamp at press and release and calc difference.
-    // If consistent for 5 clicks then troll player.
-
-    private bool playerCheats = false;
-
-    public float cheatThreshold = 0.145f; // This is basically reaction time.
-    // By setting it this, i'm claiming that 145ms reaction time consistently is inhuman. based on mouse movement - recorrection etc..
-
-    public bool GetPlayerCheats()
+    private bool playerIsCheating;
+    
+    public bool GetPlayerIsCheatingBool()
     {
-        return playerCheats;
+        return playerIsCheating;
     }
 
-    //private float pressedTime;
-    //private float releasedTime;
+    public int cheatThreshold = 16; // world record for one second.
+    public int cheatThreshold2 = 14; // world record for 5 seconds.
 
-    //private bool timerActive = false;
 
     private float timer = 0.0f;
-    private int clickCounter;
-
-    //IEnumerator StopAndStart()
-    //{
-    //    timerActive = false;
-    //    yield return new WaitForSeconds(0.001f);
-    //    timerActive = true;
-    //}
-
-    [SerializeField] private List<float> clickCountList;
-
-    private void Start()
-    {
-        clickCountList = new List<float>(); // init list
-
-        //StartCoroutine(WaitForAC_Check());
-    }
-
-    void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer >= 1.0f)
-        {
-            // Store clickCounter
-            StoreClickCounter();
-            ResetClickCounter();
-        }
-
-        //if (clickCountList[4] > 16) // 16 is the record for CPS (CLicks per second). 
-        //{
-        //    playerCheats = true;
-        //}
-    }
-
-    //IEnumerator WaitForAC_Check()
-    //{
-    //    while (gameObject.activeSelf)
-    //    {
-    //        yield return new WaitForSeconds(5);
-    //
-    //        // Do AC Check
-    //        for (int i = 0; i < clickCountList.Count; i++)
-    //        {
-    //            if (clickCountList[i] > 16)
-    //            {
-    //
-    //            }
-    //        }
-    //
-    //    }
-    //    
-    //
-    //}
+    private int clickCounter = 0;
+    [SerializeField] private int[] clickCounterArray;
+    //[SerializeField] private List<int> clickCounterList;
 
     public void incrementClick()
     {
         clickCounter++;
     }
 
-    private void StoreClickCounter()
+    private void Start()
     {
-        clickCountList.Add(clickCounter);
+        clickCounterArray = new int[10]; // init array w/ 10 slots
+        //clickCounterList = new List<int>();
 
-        if (clickCountList.Count == 6)
+        for (int i = 0; i < clickCounterArray.Length; i++)
         {
-            clickCountList.RemoveAt(0);
+            clickCounterArray[i] = -1;
+        }
 
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= 1.0f)
+        {
+            // Store number of clicks per second.
+            Store();
+
+            // CheatCheck
+            CheatCheck();
+
+            // Reset for next second.
+            myReset();
         }
     }
 
-    private void ResetClickCounter()
+    private void Store()
     {
-        clickCounter = 0;
-        timer = 0;
+        // Try and find an empty slot.
+        for (int i = 0; i < clickCounterArray.Length; i++)
+        {
+            if (clickCounterArray[i] == -1)
+            {
+                clickCounterArray[i] = clickCounter;
+                return;
+            }
+            else
+            {
+                continue;
+            }
+        }
+
+        // Cant find it?
+        // Shift to make space for new element.
+
+        for (int i = 0; i < clickCounterArray.Length - 1; i++)
+        {
+            clickCounterArray[i] = clickCounterArray[i + 1];
+        }
+        clickCounterArray[clickCounterArray.Length - 1] = clickCounter;
+        
     }
 
-    //[SerializeField] private List<float> timerList;
+    private void myReset()
+    {
+        timer = 0.0f;
+        clickCounter = 0;
+    }
+
+    private void CheatCheck()
+    {
+        // This attempt I converted over to CPS as a measurement as ms between clicks weren't as consistent as expected.
+        // InHouse testing shows that this anticheat works very well. However it needs to be externally tested.
+
+        // There are three different types of cheat checks done here.
+        // 1. Out of realistic bounds within one second. x > 16cps
+        // 2. Out of realistic bounds within five seconds. x > 14cps
+        // 3. Unrealistic consistency within ten seconds. x1 = x2 = x3...
+
+        // 1.
+        
+        if (clickCounter > cheatThreshold) // is CPS above 16?
+        {
+            // If yes, then cheating.
+            PlayerConfirmedCheating(1);
+        }
+
+        // 2.
+        int counter = 0;
+        for (int i = 0; i < 5; i++)
+        {
+            if (clickCounterArray[i] == -1)
+            {
+                continue;
+            }
+            else
+            {
+                if (clickCounterArray[i] > cheatThreshold2)
+                {
+                    counter++;
+                }
+            }
+
+        }
+        if (counter == 4)
+        {
+            PlayerConfirmedCheating(2);
+        }
+
+        // 3.
+        counter = 0; // counter 9 max.
+        for (int i = 0; i < clickCounterArray.Length -1; i++)
+        {
+            if (clickCounterArray[i] == -1)
+            {
+                continue;
+            }
+            else
+            {
+                if (clickCounterArray[i] == clickCounterArray[i + 1])
+                {
+                    counter++;
+                }
+            }
+            
+        }
+
+        if (counter == 7) // was 7 or 9
+        {
+            PlayerConfirmedCheating(3);
+        }
+
+    }
+
+    private void PlayerConfirmedCheating(int code = 0)
+    {
+        if (code == 1)
+        {
+            playerIsCheating = true;
+            Debug.Log("Player is cheating! CASE 1");
+            return;
+        }
+        if (code == 2)
+        {
+            playerIsCheating = true;
+            Debug.Log("Player is cheating! CASE 2");
+            return;
+        }
+        if (code == 3)
+        {
+            playerIsCheating = true;
+            Debug.Log("Player is cheating! CASE 3");
+            return;
+        }
+
+        if (code == 0)
+        {
+            playerIsCheating = true;
+            Debug.Log("Player is cheating! CASE NULL");
+            return;
+        }
+        
+    }
+
+
+    // SECOND ATTEMP.
+    // We've got to get the time stamp at press and release and calc difference.
+    // If consistent for 5 clicks then troll player.
+
+    //private bool playerCheats = false;
+    //
+    //public int cheatThreshold = 16; // world record for one second.
+    //public int cheatThreshold2 = 14; // world record for 5 seconds.
+    //
+    //public bool GetPlayerCheatsBool()
+    //{
+    //    return playerCheats;
+    //}
+    //
+    ////private float pressedTime;
+    ////private float releasedTime;
+    //
+    ////private bool timerActive = false;
+    //
+    //private float timer = 0.0f;
+    //private int clickCounter;
+    //
+    //
+    //[SerializeField] private List<float> clickCounterList;
     //
     //private void Start()
     //{
-    //    timerList = new List<float>(); // init list
+    //    clickCounterList = new List<float>(); // init list
+    //    //StartCoroutine(WaitForAC_Check());
     //}
     //
-    //private void StoreTime(float time)
+    //void Update()
     //{
-    //    timerList.Add(time);
+    //    timer += Time.deltaTime;
     //
-    //    if (timerList.Count == 6)
+    //    if (timer >= 1.0f)
     //    {
-    //        timerList.RemoveAt(0);
+    //        // Store clickCounter
+    //        StoreClickCounter();
+    //        ResetClickCounter();
     //    }
+    //
     //}
     //
+    //public void incrementClick() // This is used in player script Shoot();
+    //{
+    //    clickCounter++;
+    //}
+    //
+    //private void StoreClickCounter()
+    //{
+    //    clickCounterList.Add(clickCounter);
+    //
+    //    if (clickCounterList.Count == 11)
+    //    {
+    //        clickCounterList.RemoveAt(0);
+    //
+    //    }
+    //
+    //    // cheatCheck
+    //    DoCheatCheck();
+    //
+    //}
+    //
+    //public void DoCheatCheck()
+    //{
+    //    if (clickCounter > cheatThreshold) // if CPS is above 16.
+    //    {
+    //        Debug.Log("Cheater Alert!");
+    //        playerCheats = true;
+    //        return;
+    //    }
+    //
+    //    // 2 checks here...
+    //    // check 1 is for abnormalities.
+    //    // check 2 is for abnormal consistencies.
+    //
+    //    int counter = 0;
+    //    int counter2 = 0;
+    //    if (clickCounterList.Count == 10) // if List has long list
+    //    {
+    //        for (int i = 0; i < clickCounterList.Count; i++) // Loop through and if element is greater than
+    //        {
+    //            if (clickCounterList[i] > cheatThreshold2)
+    //            {
+    //                counter++;
+    //            }
+    //
+    //            //if (i + 1 <= clickCounterList.Count)
+    //            //{
+    //            //    if (clickCounterList[i] == clickCounterList[i + 1])
+    //            //    {
+    //            //        counter2++;
+    //            //    }
+    //            //}
+    //
+    //            
+    //        }
+    //
+    //    }
+    //    
+    //    if (counter >= 5 || counter2 == 9)
+    //    {
+    //        playerCheats = true;
+    //        Debug.Log("Cheater Alert!");
+    //        return;
+    //    }
+    //    
+    //
+    //}
+    //
+    //private void ResetClickCounter()
+    //{
+    //    clickCounter = 0;
+    //    timer = 0;
+    //}
 
     //private void DoCheatCheck()
     //{

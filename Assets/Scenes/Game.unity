@@ -2168,7 +2168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &335964847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2181,8 +2181,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9bd9e13867df574781bd957fd922c8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cheatThreshold: 0.012
-  clickCountList: []
+  cheatThreshold: 16
+  cheatThreshold2: 14
+  clickCounterArray: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  clickCounterList: 
 --- !u!4 &335964848
 Transform:
   m_ObjectHideFlags: 0
@@ -2681,6 +2683,16 @@ PrefabInstance:
     - target: {fileID: 992101710626788983, guid: ee6db0e065a5943479f861e0f5bb5d3f,
         type: 3}
       propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 992101710626788983, guid: ee6db0e065a5943479f861e0f5bb5d3f,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 992101710626788983, guid: ee6db0e065a5943479f861e0f5bb5d3f,
+        type: 3}
+      propertyPath: m_Maskable
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 992101710626788984, guid: ee6db0e065a5943479f861e0f5bb5d3f,

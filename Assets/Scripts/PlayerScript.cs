@@ -66,7 +66,7 @@ public class PlayerScript : MonoBehaviour
 
     public void AddToScore(int integer)
     {
-        if (AC.GetPlayerCheats())
+        if (AC.GetPlayerIsCheatingBool())
         {
             if (GM.doublePointsEnabled)
             {
