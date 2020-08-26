@@ -18,6 +18,8 @@ public class AntiCheat : MonoBehaviour
     public int cheatThreshold = 16; // world record for one second.
     public int cheatThreshold2 = 14; // world record for 5 seconds.
 
+    public int lowestThresholdForCase3 = 7; //CPS
+
 
     private float timer = 0.0f;
     private int clickCounter = 0;
@@ -141,10 +143,15 @@ public class AntiCheat : MonoBehaviour
             }
             else
             {
-                if (clickCounterArray[i] == clickCounterArray[i + 1])
+                // patch 1
+                if (clickCounterArray[i] >= lowestThresholdForCase3)
                 {
-                    counter++;
+                    if (clickCounterArray[i] == clickCounterArray[i + 1])
+                    {
+                        counter++;
+                    }
                 }
+
             }
             
         }
