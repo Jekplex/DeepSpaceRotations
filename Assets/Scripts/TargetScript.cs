@@ -18,6 +18,8 @@ public class TargetScript : MonoBehaviour
     private AudioSource playerHurtSoundSource;
     private AudioSource playerHealSoundSource;
 
+    public GameObject PS_TargetDeath;
+
     public void SetMoveSpeedShift(float speedShift)
     {
         moveSpeedShift = speedShift;
@@ -69,7 +71,9 @@ public class TargetScript : MonoBehaviour
                 playerHurtSoundSource.Play();
             }
 
+            Instantiate(PS_TargetDeath, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
+
         }
     }
 

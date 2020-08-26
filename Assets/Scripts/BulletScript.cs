@@ -27,7 +27,8 @@ public class BulletScript : MonoBehaviour
 
     //private Animator HealIndicator_anim;
 
-
+    public GameObject PS_EnemyDeath;
+    public GameObject PS_HealDeath;
 
     private void Start()
     {
@@ -77,6 +78,7 @@ public class BulletScript : MonoBehaviour
                 //PlayDeathSound();
 
                 Destroy(collision.gameObject);
+                Instantiate(PS_EnemyDeath, collision.gameObject.transform.position, Quaternion.identity);
                 Destroy(gameObject);
 
                 hasCollided = true;
@@ -106,6 +108,7 @@ public class BulletScript : MonoBehaviour
                 playerHealSoundSource.Play();
 
                 Destroy(collision.gameObject);
+                Instantiate(PS_HealDeath, collision.gameObject.transform.position, Quaternion.identity);
                 Destroy(gameObject);
 
                 hasCollided = true;

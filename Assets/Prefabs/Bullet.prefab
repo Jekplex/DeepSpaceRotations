@@ -172,6 +172,10 @@ MonoBehaviour:
   speed: 15
   despawnTimeInSeconds: 3
   targetKilledSound: {fileID: 8300000, guid: a1c9177a05e52f7438297a3762d577ad, type: 3}
+  PS_EnemyDeath: {fileID: 8121186143400956147, guid: c413e492927c76745a64b77ca85f32a2,
+    type: 3}
+  PS_HealDeath: {fileID: 9217985595463610660, guid: 5c9bfbc18655be643ad6f453793f60c4,
+    type: 3}
 --- !u!61 &8745296811403654160
 BoxCollider2D:
   m_ObjectHideFlags: 0
