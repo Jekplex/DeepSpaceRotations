@@ -59,7 +59,15 @@ public class PlayerScript : MonoBehaviour
 
     public void Heal()
     {
-        assetHealth.Heal(1f);
+        if (playerStats.Health == playerStats.MaxHealth)
+        {
+            assetHealth.AddHealth();
+        }
+        else
+        {
+            assetHealth.Heal(1f);
+        }
+        
     }
 
     
