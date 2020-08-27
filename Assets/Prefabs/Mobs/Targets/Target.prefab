@@ -198,7 +198,7 @@ MonoBehaviour:
   minSpeed: 0.5
   maxSpeed: 2.5
   moveSpeed: 0
-  moveSpeedShift: 1.0118757
+  moveSpeedShift: 1.1719979
   PS_TargetDeath: {fileID: 8121186143400956147, guid: c413e492927c76745a64b77ca85f32a2,
     type: 3}
 --- !u!50 &3302235237829062537
