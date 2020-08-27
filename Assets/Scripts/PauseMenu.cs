@@ -31,6 +31,8 @@ public class PauseMenu : MonoBehaviour
         // THis object activate. Child not. ON start.
         gameObject.SetActive(true);
         transform.GetChild(0).gameObject.SetActive(false);
+
+        
     }
 
 

@@ -20,6 +20,9 @@ public class CrosshairEnforcement : MonoBehaviour
 
         // Start default crosshair.
         UnityEngine.Cursor.SetCursor(gameCrosshair, newHotspot, CursorMode.Auto);
+
+        // Lock cursor in window.
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
@@ -39,10 +42,12 @@ public class CrosshairEnforcement : MonoBehaviour
     public void SetOS()
     {
         UnityEngine.Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void setGame()
     {
         UnityEngine.Cursor.SetCursor(gameCrosshair, newHotspot, CursorMode.Auto);
+        Cursor.lockState = CursorLockMode.Confined;
     }
 }
