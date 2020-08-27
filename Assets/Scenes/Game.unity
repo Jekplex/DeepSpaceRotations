@@ -2710,7 +2710,7 @@ PrefabInstance:
     - target: {fileID: 992101710626788987, guid: ee6db0e065a5943479f861e0f5bb5d3f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 992101710991680097, guid: ee6db0e065a5943479f861e0f5bb5d3f,
         type: 3}
@@ -12098,6 +12098,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxTotalHealth
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3675792479918497559, guid: 068b231e52be2fb478e1e8c66e53bf8f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.615
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 068b231e52be2fb478e1e8c66e53bf8f, type: 3}
