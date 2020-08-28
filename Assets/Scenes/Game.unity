@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2185,7 +2185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cheatThreshold: 16
   cheatThreshold2: 14
-  lowestThresholdForCase3: 7
+  lowestThresholdForCase3: 8
   clickCounterArray: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!4 &335964848
 Transform:
